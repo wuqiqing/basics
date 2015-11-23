@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+        "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+    <!-- field 表示表单提交一个表单域 name  表示 表单对应Input  name 属性值 -->
+    <field name="name">
+        <!-- field-validator  添加struts2  准备好一组校验器  type 引入校验器的类型  -->
+        <field-validator type="requiredstring">
+            <!-- 表示对用户添加  requiredstring 校验器-->
+            <!-- message 提示用户错误信息 -->
+            <message>用户名必须填写字符串_xml</message>
+        </field-validator>
+
+        <!-- field-validator  添加struts2  准备好一组校验器  type 引入校验器的类型  -->
+        <field-validator type="stringlength">
+            <!-- 表示对用户添加  requiredstring 校验器-->
+            <param name="minLength">6</param>
+            <param name="maxLength">6</param>
+            <!-- message 提示用户错误信息 -->
+            <message key="valid.field.xml.name"></message>
+        </field-validator>
+    </field>
+
+
+</validators>

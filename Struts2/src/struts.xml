@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!-- 修改框架默认的配置文件的  name  对应 default.properties 默认key   value 修改值 -->
+    <!-- 修改客户端访问虚拟路径配置 -->
+    <!--    <constant name="struts.action.extension" value="do,my,,"></constant> -->
+    <!-- struts.xml 重新自动加载配置 -->
+    <constant name="struts.configuration.xml.reload" value="true"></constant>
+    <!-- 开启国际化资源配置信息 -->
+    <constant name="struts.custom.i18n.resources" value="message,message1"></constant>
+    <!-- 动态方法的调用 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+    <!-- name  定义一个 包名 自定义    extends 属性 表示当前包继承struts默认包名  可以使用struts 包下定义所有资源 比如拦截器 -->
+    <package name="mypackage" extends="struts-default" namespace="/book">
+        <!-- 动态方法的访问 一般 由请求资源地址提供 该action 业务方法名称  -->
+        <action name="bookAction" class="cn.itcast.day19_struts2_day02.bookaction.BookAction">
+        </action>
+    </package>
+
+    <!-- 转发跳转案例说明 -->
+    <package name="dispatcher" extends="struts-default" namespace="/jump">
+        <action name="dispacherAction" class="cn.itcast.day19_struts2_day02.dispather.DispacherAction">
+            <!-- type 属性值 默认值: dispatcher  特点:只能向jsp 页面转发 不可以向另一个action 转发
+               chain (链条  连锁店)  作用:  action 和 action之间转发
+             -->
+            <result name="dispatcher" type="chain">dispacherAction1</result>
+        </action>
+
+        <action name="dispacherAction1" class="cn.itcast.day19_struts2_day02.dispather.DispacherAction1"
+                method="dispatcherMethod">
+            <!-- type 属性值 默认值: dispatcher  特点:只能向jsp 页面转发 不可以向另一个action 转发  -->
+            <result name="dispatcher1" type="dispatcher">/dispatcher.jsp</result>
+        </action>
+
+        <!-- 重定向的案例演示 -->
+        <action name="redirectAction" class="cn.itcast.day19_struts2_day02.dispather.RedirectAction">
+            <!--  type 必须填写 值 :  redirect(既可以向jsp重定向跳转 也可以向action 跳转 )   redirectAction 只能向action 重定向跳转  -->
+            <result name="redirect" type="redirect">dispacherAction1</result>
+        </action>
+    </package>
+
+    <!--   分离文件  优化 配置   引入 login.xml 配置信息  加载到当前struts.xml 配置文件中 -->
+    <include file="login.xml"></include>
+    <include file="register.xml"></include>
+    <include file="book.xml"></include>
+</struts>
+
+
+
+
+
+

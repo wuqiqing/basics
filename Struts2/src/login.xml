@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="login" extends="struts-default" namespace="/login">
+        <!-- 属性注入 -->
+        <action name="loginActionByAttribute"
+                class="cn.itcast.day19_struts2_day02.attribute.setter.LoginActionByAttribute">
+            <result type="redirect">/index.jsp</result>
+        </action>
+        <!-- 对象的注入案例 -->
+        <action name="loginActionByObject" class="cn.itcast.day19_struts2_day02.object.setter.LoginActionByObject">
+            <result type="redirect">/index.jsp</result>
+        </action>
+        <!-- modelDrivern 接口注入 -->
+        <action name="loginActionByModel" class="cn.itcast.day19_struts2_day02.action.model.LoginActionByModel">
+            <result type="redirect">/index.jsp</result>
+        </action>
+        <!-- 代码版本的校验器 之登陆案例 -->
+        <action name="loginActionValidation"
+                class="cn.itcast.day19_struts2_day02.code.validation.LoginActionValidation">
+            <result name="ok" type="redirect">/index.jsp</result>
+            <result name="login_error">/login.jsp</result>
+            <result name="register">/login.jsp</result>
+            <result name="register_error">/register.jsp</result>
+        </action>
+
+
+    </package>
+</struts>
+
+
+
+
+
+
