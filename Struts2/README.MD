@@ -1,6 +1,17 @@
-#Ğ£ÑéµÄÄ¿±êÊôĞÔÊµÌåÀàpojoÒ»¶¨Ìá¹©getXXX·½·¨
-	È«¾ÖĞ£Ñé £¨Ğ£Ñéµ±Ç°Action ËùÓĞ·½·¨£©	
-	ÔÚActionÀàËùÔÚ°ü£¬´´½¨ ActionÀàÃû-validation.xml 
-#¾Ö²¿Ğ£ÑéÆ÷
-	Ãû³Æ  ActionÀàÃû-action±êÇ©¶ÔÓ¦nameÊôĞÔÖµÃû³Æ-validation.xml	
-	¶¯Ì¬·½·¨·ÃÎÊµÄ²»¿ÉÒÔÊ¹ÓÃxm¾Ö²¿Ğ£ÑéÆ÷
+#æ ¡éªŒçš„ç›®æ ‡å±æ€§å®ä½“ç±»pojoä¸€å®šæä¾›getXXXæ–¹æ³•
+	å…¨å±€æ ¡éªŒ ï¼ˆæ ¡éªŒå½“å‰Action æ‰€æœ‰æ–¹æ³•ï¼‰	
+	åœ¨Actionç±»æ‰€åœ¨åŒ…ï¼Œåˆ›å»º Actionç±»å-validation.xml 
+#å±€éƒ¨æ ¡éªŒå™¨
+	åç§°  Actionç±»å-actionæ ‡ç­¾å¯¹åº”nameå±æ€§å€¼åç§°-validation.xml	
+	åŠ¨æ€æ–¹æ³•è®¿é—®çš„ä¸å¯ä»¥ä½¿ç”¨xmå±€éƒ¨æ ¡éªŒå™¨
+#$.ajax({
+    type: "POST",
+    url: "some.jsp",
+    data: "name=John&location=Boston",
+    success: function(msg){
+      alert( "Data Saved: " + msg );
+    }
+ }); 
+# $.get()/$.post("url","parameter",function(data){...}); 
+
+#å®ä½“ç±»å±æ€§åªè¦åŠ ä¸Šæ³¨è§£  @Transient å°±ä¸ä¼šè¢«åºåˆ—åŒ–åˆ°jsonå­—ç¬¦ä¸²ä¸­

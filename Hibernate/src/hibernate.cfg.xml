@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!-- hibernate鐨勬牳蹇冮厤缃細鍖呮嫭jdbc鐨勯厤缃�乭ibernate鏂硅█銆併�傘�傘�傘�傘�� -->
+<hibernate-configuration>
+    <!-- 鍦ㄥ伐鍘備笂閰嶇疆鐩稿叧鍙傛暟 -->
+    <session-factory>
+
+        <!-- mysql鐨刯dbc閰嶇疆 -->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql:///herinate</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">changdaye</property>
+        <!-- 鏁版嵁搴撴柟瑷� :鐢ㄦ潵缈昏瘧涓嶅悓鏁版嵁搴撶殑sql鐨�-->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- 鏇存敼榛樿鐨勮繛鎺ユ睜涓篶3p0 -->
+        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+
+        <!-- 鑷姩鎻愪氦浜嬪姟閰嶇疆:瀵筼racle鏃犳晥锛屼富瑕佹槸鍥犱负鏁版嵁搴撳簳灞傚師鍥� -->
+        <property name="hibernate.connection.autocommit">true</property>
+
+        <!-- 鑷姩寤鸿〃:鍙互鏍规嵁class鑷姩鐢熸垚鏁版嵁搴撹〃 -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- sql鎵撳嵃锛氫細灏唄ibernate鑷姩鐢熸垚鐨剆ql鎵撳嵃鍒版帶鍒跺彴 -->
+        <property name="hibernate.show_sql">true</property>
+        <!--鎺у埗鍙� sql璇彞鐨勬牸寮忓寲 -->
+        <property name="hibernate.format_sql">true</property>
+
+        <mapping resource="changdaye/entity/Customer.hbm.xml"></mapping>
+
+    </session-factory>
+
+</hibernate-configuration>
+	

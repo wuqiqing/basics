@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- mybatis全局配置文件：加载mybatis基础支持信息，
+	 和spring进行整合被废弃 插件：spring tool suit -->
+<configuration>
+
+    <typeAliases>
+        <!--typeAlias:定义单个别名，每次只能定义一个别名  -->
+        <!-- <typeAlias type="cn.itcast.domain.User" alias="user"/> -->
+        <!-- 使用package批量定义别名：name写包名，批量扫描包路径下的所有的类，这些类都被自动定义了别名
+             别名就是类名，大小写都可 -->
+        <package name="cn.itcast.domain"/>
+    </typeAliases>
+    <!-- <mappers>
+    <mapper resource="cn/itcast/dao/UserMapper.xml"/>
+    </mappers>
+     -->
+</configuration>

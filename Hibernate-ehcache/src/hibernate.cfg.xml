@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!-- hibernate的核心配置：包括jdbc的配置、hibernate方言、。。。。。 -->
+<hibernate-configuration>
+    <!-- 在工厂上配置相关参数 -->
+    <session-factory>
+
+        <!-- mysql的jdbc配置 -->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql:///hb19_day1</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">changdaye</property>
+        <!-- 数据库方言 :用来翻译不同数据库的sql的-->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- 更改事务的隔离级别 -->
+        <property name="hibernate.connection.isolation">1</property>
+        <!-- 更改默认的连接池为c3p0 -->
+        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+
+        <!-- 打开本地线程管理 -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- 自动提交事务配置:对oracle无效，主要是因为数据库底层原因 -->
+        <property name="hibernate.connection.autocommit">true</property>
+
+        <!-- 自动建表:可以根据class自动生成数据库表 -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- sql打印：会将hibernate自动生成的sql打印到控制台 -->
+        <property name="hibernate.show_sql">true</property>
+        <!--控制台 sql语句的格式化 -->
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- 二级缓存 -->
+        <!-- 打开二级缓存 -->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <!-- 指定二级缓存提供商 -->
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+        <!-- 开启查询缓存 -->
+        <property name="hibernate.cache.use_query_cache">true</property>
+
+        <!-- 打开性能监控功能（统计功能） -->
+        <property name="hibernate.generate_statistics">true</property>
+
+        <!-- hbm映射配置：让hbm映射交给hibernate来管理使用-->
+        <mapping resource="cn/itcast/hb/a_isolation/Book.hbm.xml"/>
+        <mapping resource="cn/itcast/hb/b_secondcache/Customer.hbm.xml"/>
+        <mapping resource="cn/itcast/hb/b_secondcache/Order.hbm.xml"/>
+
+        <!-- 缓存配置 -->
+        <!-- 类级别的缓存配置:缓存po对象 -->
+        <class-cache usage="read-write" class="cn.itcast.hb.a_isolation.Book"/>
+        <!-- 配置集合级别的二级缓存，必须要配置类级别的缓存 -->
+        <class-cache usage="read-write" class="cn.itcast.hb.b_secondcache.Customer"/>
+        <class-cache usage="read-write" class="cn.itcast.hb.b_secondcache.Order"/>
+        <collection-cache usage="read-write" collection="cn.itcast.hb.b_secondcache.Customer.orders"/>
+
+
+    </session-factory>
+
+</hibernate-configuration>
+	

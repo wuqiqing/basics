@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- 多表配置时，先配置单表，再配置关系 -->
+<hibernate-mapping>
+    <class name="cn.itcast.hb.b_secondcache.Order" table="t_order">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <property name="name"/>
+        <property name="price"/>
+        <!-- 关联属性配置 -->
+        <!-- 对一的情况下，直接配置关系（相当于关系和属性一起配置了） -->
+        <many-to-one name="customer" class="cn.itcast.hb.b_secondcache.Customer"
+                     column="customer_id"
+                />
+
+    </class>
+
+</hibernate-mapping>

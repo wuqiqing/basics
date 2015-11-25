@@ -1,0 +1,28 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
+    <!-- 硬盘上的临时存储空间（如果内存满了，策略允许，则将数据缓存到硬盘） -->
+    <!-- <diskStore path="java.io.tmpdir"/> -->
+    <diskStore path="d:\cachetemp"/>
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+            />
+    <!-- 自定义缓存策略，name写实体的类，要缓存的类，Hibernate会自动来寻找这个策略，如果找不到，就用默认的defaultCache策略 -->
+    <cache name="cn.itcast.hb.a_isolation.Book"
+           maxElementsInMemory="1"
+           eternal="false"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="120"
+           overflowToDisk="true"
+           maxElementsOnDisk="10000000"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU"
+            />
+</ehcache>

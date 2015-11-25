@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- mybatis全局配置文件：加载mybatis基础支持信息，
+	 和spring进行整合被废弃 插件：spring tool suit -->
+<configuration>
+    <!--mybatis提供资源引用标签 使用resource引入外部资源文件  -->
+
+    <properties resource="db.properties"></properties>
+    <!--mybatis的typeAliases支持定义别名， typeAliases可以定义多个typeAlias -->
+    <typeAliases>
+        <!--typeAlias:定义单个别名，每次只能定义一个别名  -->
+        <!-- <typeAlias type="cn.itcast.domain.User" alias="user"/> -->
+        <!-- 使用package批量定义别名：name写包名，批量扫描包路径下的所有的类，这些类都被自动定义了别名
+             别名就是类名，大小写都可 -->
+        <package name="cn.itcast.domain"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <!--jdbc事务管理，mybatis负责执行管理  -->
+            <transactionManager type="JDBC"/>
+            <!-- jdbc数据源，mybatis负责管理 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!-- 使用class的方式进行扫描接口：代理开发模式
+            这里也可配置多个Mapper -->
+        <!-- <mapper class="cn.itcast.dao.UserDao"/> -->
+
+        <!-- mapper代理开发：批量扫描接口使用package，name填写接口包路径
+             包路径下面所有接口都被代理 -->
+        <package name="cn.itcast.dao"/>
+    </mappers>
+</configuration>

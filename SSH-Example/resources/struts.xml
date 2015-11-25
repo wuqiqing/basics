@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <!-- 不用重启服务器 -->
+    <constant name="struts.i18n.reload" value="true"/>
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    <!-- 表单样式 -->
+    <constant name="struts.ui.theme" value="simple"/>
+    <!-- 国际化文件 -->
+    <constant name="struts.custom.i18n.resources" value="messages"/>
+    <!-- 动态方法调用 :有一定的安全隐患-->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+
+    <package name="default" namespace="/" extends="json-default">
+        <!-- 全局结果集 -->
+        <global-results>
+            <!-- json的异步加载 -->
+            <result name="json" type="json">
+                <!-- private String root="result",这里的result就是个字符串 -->
+                <param name="root">result</param>
+            </result>
+        </global-results>
+
+
+        <!-- 用户操作相关 -->
+        <action name="user_*" class="userAction" method="{1}">
+            <result name="success" type="redirect">/jsps/main.jsp</result>
+            <result name="loginjsp">/login.jsp</result>
+        </action>
+
+        <!-- 仓库管理相关 -->
+        <action name="store_*" class="storeAction" method="{1}">
+            <result name="listaction" type="redirectAction">store_list</result>
+            <!-- <result name="listaction" >/store_list.action</result> -->
+            <result name="listjsp">/jsps/store/store.jsp</result>
+            <!-- 添加校验错误跳回页面 -->
+            <!-- <result name="input">/jsps/store/add.jsp</result> -->
+            <result name="addinput">/jsps/store/add.jsp</result>
+            <!-- 修改 -->
+            <!-- <result name="editjsp">/jsps/store/edit.jsp</result> -->
+            <!-- 修改校验错误跳回页面 -->
+            <result name="editinput">/jsps/store/edit.jsp</result>
+            <!-- 异步请求 -->
+            <!-- <result name="json" type="json">
+                private String root="result",这里的result就是个字符串
+                <param name="root">result</param>
+            </result> -->
+        </action>
+
+        <!-- 货物操作相关 -->
+        <action name="goods_*" class="goodsAction" method="{1}">
+            <!-- 入库的结果集配置 -->
+            <result name="savejsp" type="redirect">/jsps/save/save.jsp</result>
+            <!-- 库存管理-盘点 -->
+            <result name="remainjsp">/jsps/store/remain.jsp</result>
+        </action>
+
+    </package>
+
+</struts>

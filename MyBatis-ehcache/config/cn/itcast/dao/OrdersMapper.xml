@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper中有很多sql语句，namespace是用来隔离sql语句
+	代理开发：namespace有特殊的含义 :必须是接口的全类路径名 -->
+<mapper namespace="cn.itcast.dao.OrdersMapper">
+    <!-- resultMap：高级映射，查询结果集映射到javabean
+         type:把查询结果集映射到那个对象，Orders对象
+         id：resultMap唯一标识 -->
+    <resultMap type="orders" id="BaseResultMap">
+        <!-- 主键映射 -->
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="number" property="number"/>
+        <result column="createtime" property="createTime"/>
+        <result column="note" property="note"/>
+        <!-- 配置一对一的映射关系：mybatis使用association
+             property：表示把结果集映射到Orders中那个属性
+             javaType:表示映射结果集的类型
+             select:表示配置延迟加载需要执行的sql语句的Statement,如果说是不同映射，namespace+Statement的ID
+             SELECT orders.*,(SELECT username FROM USER WHERE id=user_id) username,
+                (SELECT sex FROM USER WHERE id=user_id) sex FROM orders
+                 column:表示查询订单的外键传递需要延迟加载的User
+              -->
+
+        <association property="user" javaType="user" select="cn.itcast.dao.UserMapper.findUserLazyLoading"
+                     column="user_id">
+
+        </association>
+
+
+    </resultMap>
+
+    <select id="findOrdersLazyLoading" resultMap="BaseResultMap">
+select * from orders
+</select>
+
+</mapper>

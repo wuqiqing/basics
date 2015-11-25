@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper中有很多sql语句，namespace是用来隔离sql语句
+	代理开发：namespace有特殊的含义 :必须是接口的全类路径名 -->
+<mapper namespace="cn.itcast.dao.UserMapper">
+    <!-- 开启本地缓存：org.apache.ibatis.cache.impl.PerpetualCache
+         type:指定外部缓存插件类-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <!-- resultMap：高级映射，查询结果集映射到javabean
+         type:把查询结果集映射到那个对象，Orders对象
+         id：resultMap唯一标识 -->
+    <resultMap type="user" id="BaseResultMap">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+
+    </resultMap>
+
+    <select id="findUserLazyLoading" parameterType="int" resultMap="BaseResultMap">
+        select * from user where id=#{userId}
+    </select>
+
+    <select id="findUserByID" parameterType="int" resultMap="BaseResultMap">
+        select * from user where id=#{id}
+    </select>
+</mapper>

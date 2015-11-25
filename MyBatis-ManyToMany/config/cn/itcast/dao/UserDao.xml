@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper中有很多sql语句，namespace是用来隔离sql语句
+	代理开发：namespace有特殊的含义 :必须是接口的全类路径名 -->
+<mapper namespace="cn.itcast.dao.UserDao">
+    <!-- 查询所有用户
+         mybatis加载sqlMap里面的Mapper.xml,把我们的sql封装Statement对象
+         id:标识Statement的唯一标识
+         resultType:表示返回值类型，这个resultType返回单个对象和返回集合都是一样
+         -->
+    <select id="findAllUser" resultType="User">
+select * from user
+</select>
+
+    <!--
+        id:Statement的唯一标识
+        parameterType:输入参数类型
+        resultTYpe:返回值类型
+        #{}:表示占位符，括号填写的参数名。如果说传递参数是基本类型：int long String等等。
+        #{}当中可以是任意的值
+        如果说传递参数是pojo类型，使用ognl(对象导航语言)表达式进行获取：属性.属性.属性
+      -->
+    <select id="findUserByID" parameterType="int" resultType="user">
+	select * from user where id=#{id}
+</select>
+
+    <!-- #{}:占位符，如果是基本类型，原样进行获取，如果是字符类型：‘张’
+         ${}：表示sql拼接，不管是什么值，不加修饰的拼接
+         ${}:如果传递参数是基本类型：只能是value.如果是pojo类型：使用ognl表达式进行获取-->
+    <select id="findUserByUsername" parameterType="string" resultType="user">
+	select * from user where username like '%${value}%'
+</select>
+
+    <delete id="deleteUserByID" parameterType="int">
+delete from user where id=#{id}
+</delete>
+    <!--insert:mybatis提供的添加标签
+        parameterType:传递的参数是pojo类型
+      -->
+    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+        <!--mybatis提供selectKey用来返回保存数据主键。
+            Order：由于mysql的主键是在insert执行之后生成的，所以需要使用after。
+            如果是oracle必须是before。
+            resultType：返回值映射到pojo当中的类型  -->
+        <!-- <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey> -->
+
+        insert into user(id,username,birthday,sex,address) values(#{id},#{username},#{birthday},#{sex},#{address})
+    </insert>
+    <!-- mybatis提供update标签进行修改操作
+         parameterTYpe：传递的pojo，使用ognl表达式进行获取参数 -->
+    <update id="updateUserByID" parameterType="user">
+update user set username=#{username} where id=#{id}
+</update>
+
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper中有很多sql语句，namespace是用来隔离sql语句
+	代理开发：namespace有特殊的含义 :必须是接口的全类路径名 -->
+<mapper namespace="cn.itcast.dao.OrdersCustomDao">
+
+
+    <select id="findOrdersAndUser" resultType="ordersCustom">
+			SELECT 
+            orders.*,
+            user.username,
+            user.address,
+            user.sex 
+          FROM
+            orders,
+            USER 
+          WHERE orders.user_id = user.id 
+</select>
+
+</mapper>

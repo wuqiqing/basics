@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!-- hibernate的核心配置：包括jdbc的配置、hibernate方言、。。。。。 -->
+<hibernate-configuration>
+    <!-- 在工厂上配置相关参数 -->
+    <session-factory>
+        <!-- mysql的jdbc配置 -->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql:///itcast19</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
+        <!-- 数据库方言 :用来翻译不同数据库的sql的-->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+        <!-- 更改默认的连接池为c3p0 -->
+        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+
+        <!-- 自动建表:可以根据class自动生成数据库表 -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- sql打印：会将hibernate自动生成的sql打印到控制台 -->
+        <property name="hibernate.show_sql">true</property>
+        <!--控制台 sql语句的格式化 -->
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- hbm映射配置：让hbm映射交给hibernate来管理使用-->
+        <mapping resource="cn/itcast/ssh/domain/Book.hbm.xml"/>
+
+    </session-factory>
+
+</hibernate-configuration>
+	

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper中有很多sql语句，namespace是用来隔离sql语句
+	代理开发：namespace有特殊的含义 :必须是接口的全类路径名 -->
+<mapper namespace="cn.itcast.dao.UserCustomDao">
+    <!--
+    resultMap：结果集进行map映射
+        type：表示映射结果类型
+        id：resultMap的唯一标识，说明的Mapper中可以定义多个resultMap
+     -->
+    <resultMap type="user" id="BaseResultMap">
+        <!-- id：表示主键的映射，javabean的唯一标识映射
+             column：数据库查询列名
+             property:javabean的属性，表示包列名的值映射javabean那个属性上 -->
+        <id column="_id" property="id"/>
+        <!-- 普通属性的映射：
+             column：数据库列名
+             property：javabean的属性 -->
+        <result column="_username" property="username"/>
+    </resultMap>
+
+    <!-- 定义sql片段：抽取公共的sql语句
+        id就是sql片段的唯一标识 -->
+    <sql id="query_page">
+        <!-- 使用if标签进行判断：如果传递的参数为null或者空串，这个sql语句判断就不参加拼接 -->
+        <if test="userCustom.sex!=null and userCustom.sex!='' ">
+            and sex=#{userCustom.sex}
+        </if>
+        <if test="userCustom.username!=null and userCustom.username!='' ">
+            and username like '%${userCustom.username}%'
+        </if>
+
+    </sql>
+
+    <!-- SELECT * FROM USER WHERE (id=1 OR id=23 OR id=33)
+
+    SELECT * FROM USER WHERE id IN(1,23,34)
+
+    foreach用来循环集合参数
+    collection：表示集合参数在传递参数类型javabean中的一个集合属性
+    item:表示每次循环临时存储循环值的临时变量
+    open:组合的字符串的开发 一(开始
+    close:表示循环完毕，以)结束
+    separator:表示字符的分割符
+
+    -->
+
+    <sql id="query_foreach_or">
+        <if test="ids!=null">
+            <foreach collection="ids" item="id" open="(" close=")" separator="or">
+
+                id=#{id}
+
+            </foreach>
+
+        </if>
+
+    </sql>
+
+    <sql id="query_foreach_in">
+        <if test="ids!=null">
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+
+                #{id}
+
+            </foreach>
+
+        </if>
+
+    </sql>
+
+
+    <!-- parameterTYpe：传递的包装类型参数 QueryUserVo
+         由于传递的javabean对象，使用ognl表达式进行获取：属性.属性-->
+    <select id="findUserBySexAndUsernameCount" parameterType="QueryUserVo" resultType="int">
+        select COUNT(1) from user
+        <!-- mybatis自己的where标签会自动生成where语句，where语句后面第一个and会自动被mybatis去掉 -->
+        <where>
+            <include refid="query_page"></include>
+
+        </where>
+
+    </select>
+
+    <select id="findUserBySexAndUsername" parameterType="QueryUserVo" resultType="user">
+        select * from user
+        <!-- mybatis自己的where标签会自动生成where语句，where语句后面第一个and会自动被mybatis去掉 -->
+        <where>
+
+            <include refid="query_page"></include>
+
+        </where>
+    </select>
+
+    <!--传递map类型的参数
+        传递参数还是使用parameterType:传递参数类型map，
+        返回值类型User
+        使用#{}获取值，括号中是map的key
+      -->
+    <select id="findUserByMap" parameterType="map" resultType="user">
+ 	select * from user where sex=#{sex}
+ </select>
+
+    <select id="findUserResultMap" resultMap="BaseResultMap">
+ 	select id _id,username _username from user
+ </select>
+
+    <select id="findUserByOr" parameterType="QueryUserVo" resultType="user">
+        SELECT * FROM USER WHERE
+        <include refid="query_foreach_or"></include>
+
+
+    </select>
+
+    <select id="findUserByIn" parameterType="QueryUserVo" resultType="user">
+        SELECT * FROM USER WHERE id IN
+        <include refid="query_foreach_in"></include>
+
+    </select>
+
+</mapper>

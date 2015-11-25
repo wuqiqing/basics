@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 引入外部的属性文件 -->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!-- 数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!-- 1.直接在spring中加载hibernate配置文件 （零障碍整合）
+    使用了工厂bean的构造方式：FactoryBean<SessionFactory>，得到是sessionFactory
+     -->
+    <!-- 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+            configLocation：用来加载Hibernate核心配置文件
+            一般情况下：你只要配置跟location相关的资源文件，就必须加classpath
+            <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        </bean> -->
+    <!--2.（推荐）将hibernate参数配置到spring文件 -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <!-- 数据源 注入-->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- hibernate的一些配置属性 (属性列表)-->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+            </props>
+        </property>
+
+        <!-- hbm映射 -->
+        <property name="mappingResources">
+            <list>
+                <value>cn/itcast/ssh/domain/Book.hbm.xml</value>
+                <!-- <value>cn/itcast/ssh/domain/Book2.hbm.xml</value> -->
+            </list>
+        </property>
+
+    </bean>
+
+    <!-- 配置spring的声明式事务 -->
+    <!-- 事务管理器（Hibernate的） -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <!-- 注入session工厂 -->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!-- 事务通知、增强 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" read-only="false"/>
+            <tx:method name="update*"/>
+            <tx:method name="delete*"/>
+            <tx:method name="find*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--aop的配置： 切入点和切面 -->
+    <aop:config>
+        <aop:pointcut expression="bean(*Service)" id="txPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+
+    <!-- dao -->
+    <bean id="bookDAO" class="cn.itcast.ssh.dao.BookDAO">
+        <!-- 注入sessionFactory ， 目的是为了获取hibernateTemplate-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- service -->
+    <bean id="bookService" class="cn.itcast.ssh.service.BookService">
+        <property name="bookDAO" ref="bookDAO"/>
+    </bean>
+
+    <!-- action -->
+    <bean id="bookAction" class="cn.itcast.ssh.web.action.BookAction" scope="prototype">
+        <!-- spring主动注入service -->
+        <property name="bookService" ref="bookService"/>
+    </bean>
+
+</beans>

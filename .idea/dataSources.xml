@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="2943615720">
+    <data-source source="LOCAL" name="MySQL - qdm16744846_db@qdm16744846.my3w.com" uuid="44b1d134-7adb-4a60-a3fd-ca0331bb4411">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://qdm16744846.my3w.com:3306/qdm16744846_db</jdbc-url>
+      <driver-properties>
+        <property name="zeroDateTimeBehavior" value="convertToNull" />
+        <property name="tinyInt1isBit" value="false" />
+        <property name="characterEncoding" value="utf8" />
+        <property name="characterSetResults" value="utf8" />
+        <property name="yearIsDateType" value="false" />
+      </driver-properties>
+      <libraries>
+        <library>
+          <url>file://C:/java_exe/mysql-connector-java-5.1.32.jar</url>
+        </library>
+      </libraries>
+    </data-source>
+  </component>
+</project>

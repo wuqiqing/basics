@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- 多表配置时，先配置单表，再配置关系 -->
+<hibernate-mapping>
+    <class name="cn.itcast.hb.b_secondcache.Customer" table="t_customer">
+        <cache usage="read-write"/>
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <property name="name"/>
+        <property name="city"/>
+        <!-- 关联属性配置 -->
+        <set name="orders">
+            <!-- <cache usage="read-write"/> -->
+            <key column="customer_id"/>
+            <!-- 关系:一对多 -->
+            <one-to-many class="cn.itcast.hb.b_secondcache.Order"/>
+        </set>
+    </class>
+</hibernate-mapping>
