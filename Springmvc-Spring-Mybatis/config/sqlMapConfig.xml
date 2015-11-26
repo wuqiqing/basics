@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--mybatis的typeAliases支持定义别名， typeAliases可以定义多个typeAlias -->
+    <typeAliases>
+        <!--typeAlias:定义单个别名，每次只能定义一个别名  -->
+        <!-- <typeAlias type="cn.itcast.domain.User" alias="user"/> -->
+        <!-- 使用package批量定义别名：name写包名，批量扫描包路径下的所有的类，这些类都被自动定义了别名
+             别名就是类名，大小写都可 -->
+        <package name="cn.itcast.domain"/>
+    </typeAliases>
+</configuration>
